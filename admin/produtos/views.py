@@ -1,8 +1,10 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from .models import Produto
+from .models import Produto, Usuario
 from .serializer import ProdutoSerializer
+import random
 
 
 class ProdutoViewSet(viewsets.ViewSet):
@@ -33,3 +35,11 @@ class ProdutoViewSet(viewsets.ViewSet):
         produto = Produto.objects.get(id=pk)
         produto.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UsuarioAPIView(APIView):
+    def get(self, _):
+        usuarios = Usuario.objects.all()
+        usuario = random.choice(usuarios)
+        return Response({
+            'id': usuario.id
+        })
