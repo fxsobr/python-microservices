@@ -18,7 +18,7 @@ class ProdutoViewSet(viewsets.ViewSet):
         serializer = ProdutoSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        publish('product_created', serializer.data)
+        publish('produto_criado', serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, pk=None):
@@ -31,14 +31,15 @@ class ProdutoViewSet(viewsets.ViewSet):
         serializer = ProdutoSerializer(instance=produto, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        publish('product_updated', serializer.data)
+        publish('produto_atualizado', serializer.data)
         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
     def delete(self, request, pk=None):
         produto = Produto.objects.get(id=pk)
         produto.delete()
-        publish('product_deleted', pk)
+        publish('produto_removido', pk)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class UsuarioAPIView(APIView):
     def get(self, _):
